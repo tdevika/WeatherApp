@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.wednesday.template.R
 import com.wednesday.template.activity.base.BaseUpActivity
 
+
 class CitiesActivity : BaseUpActivity() {
 
   companion object {

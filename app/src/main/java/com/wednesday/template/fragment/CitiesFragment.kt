@@ -31,9 +31,7 @@ class CitiesFragment: Fragment(), DIAware, CitySelected {
   private val apiService: WeatherApiService by instance("apiService")
   private val databaseDao: DatabaseDao by instance("databaseDao")
 
-  private val citiesAdapter: CitiesAdapter by lazy {
-    CitiesAdapter(this)
-  }
+  private val citiesAdapter: CitiesAdapter =  CitiesAdapter(this)
 
   override fun onCreateView(
     inflater: LayoutInflater,

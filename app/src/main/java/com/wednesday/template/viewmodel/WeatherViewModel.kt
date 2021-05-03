@@ -3,14 +3,11 @@ package com.wednesday.template.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.wednesday.template.database.DatabaseDao
-import com.wednesday.template.model.City
 import com.wednesday.template.model.Resource
 import com.wednesday.template.model.Weather
 import com.wednesday.template.network.WeatherApiService
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.di
