@@ -46,6 +46,7 @@ class CitiesFragment: Fragment(), DIAware, CitySelected {
 
     databaseDao.getObservableFavoriteCities().observe(viewLifecycleOwner, Observer { cities ->
       citiesAdapter.setFavoriteCities(cities)
+
     })
     searchCityEditText.addTextChangedListener(object : TextWatcher {
       override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
