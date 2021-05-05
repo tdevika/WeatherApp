@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wednesday.template.R
@@ -19,13 +20,19 @@ import com.wednesday.template.model.City
 import com.wednesday.template.util.addProgressIndicator
 import com.wednesday.template.util.removeProgressIndicator
 import com.wednesday.template.viewmodel.CityViewModel
+import com.wednesday.template.viewmodel.CityViewModelFactory
 import com.wednesday.template.viewmodel.WeatherViewModel
 import kotlinx.android.synthetic.main.fragment_cities.*
+import org.kodein.di.DIAware
+import org.kodein.di.android.x.di
+import org.kodein.di.instance
 
-class CitiesFragment : Fragment(), CitySelected {
+class CitiesFragment : Fragment(), CitySelected, DIAware {
 
-    private val viewModel: CityViewModel by viewModels()
+    override val di by di()
+    private val viewModeFactory: CityViewModelFactory by instance("cityViewModelFactory")
 
+    private lateinit var viewModel: CityViewModel
     private val citiesAdapter: CitiesAdapter by lazy { CitiesAdapter(this) }
 
     lateinit var binding: FragmentCitiesBinding
@@ -34,6 +41,7 @@ class CitiesFragment : Fragment(), CitySelected {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel = ViewModelProvider(this, viewModeFactory).get(CityViewModel::class.java)
         binding = FragmentCitiesBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root

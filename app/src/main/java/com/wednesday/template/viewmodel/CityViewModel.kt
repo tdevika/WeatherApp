@@ -15,11 +15,11 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
 
-class CityViewModel(application: Application) : AndroidViewModel(application), DIAware {
-
-    override val di by di()
-    private val databaseDao: DatabaseDao by instance("databaseDao")
-    private val apiService: WeatherApiService by instance("apiService")
+class CityViewModel(
+    application: Application,
+    private val databaseDao: DatabaseDao,
+    private val apiService: WeatherApiService
+) : AndroidViewModel(application) {
 
     val searchCities = MutableLiveData<List<City>>()
     private var favoriteCities = listOf<City>()
@@ -32,12 +32,12 @@ class CityViewModel(application: Application) : AndroidViewModel(application), D
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val result = apiService.searchCities(searchText)
-                result.map {city->
-                    val c = favoriteCities.find {it.title == city.title}
-                       c?.let {
-                           city.isFavorite = true
-                       }
+                result.map { city ->
+                    val isCitySelected = favoriteCities.find { it.title == city.title }
+                    isCitySelected?.let {
+                        city.isFavorite = true
                     }
+                }
                 searchCities.postValue(result)
             }
         }

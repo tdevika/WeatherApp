@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,12 +17,19 @@ import com.wednesday.template.adapter.WeatherAdapter
 import com.wednesday.template.databinding.FragmentWeatherBinding
 import com.wednesday.template.model.Weather
 import com.wednesday.template.util.getList
+import com.wednesday.template.viewmodel.CityViewModelFactory
 import com.wednesday.template.viewmodel.UiState
 import com.wednesday.template.viewmodel.WeatherViewModel
+import com.wednesday.template.viewmodel.WeatherViewModelFactory
 import kotlinx.android.synthetic.main.fragment_weather.*
+import org.kodein.di.DIAware
+import org.kodein.di.android.x.di
+import org.kodein.di.instance
 
-class WeatherFragment : Fragment() {
-    private val viewModel: WeatherViewModel by viewModels()
+class WeatherFragment : Fragment(),DIAware {
+    override val di by di()
+    private val viewModeFactory: WeatherViewModelFactory by instance("weatherViewModelFactory")
+    lateinit var viewModel: WeatherViewModel
 
     private val weatherAdapter by lazy { WeatherAdapter() }
     lateinit var binding: FragmentWeatherBinding
@@ -30,6 +38,7 @@ class WeatherFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel = ViewModelProvider(this,viewModeFactory).get(WeatherViewModel::class.java)
         binding = FragmentWeatherBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
@@ -44,7 +53,6 @@ class WeatherFragment : Fragment() {
         binding.addFavoriteWeatherActionButton.setOnClickListener {
             findNavController().navigate(WeatherFragmentDirections.actionWeatherFragmentToCitiesFragment())
         }
-        weatherAdapter.submitList(listOf(Weather("ds", listOf())))
     }
 
     private fun setToolbar() {

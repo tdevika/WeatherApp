@@ -16,29 +16,27 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
 
-class WeatherViewModel(application: Application) : AndroidViewModel(application), DIAware {
-
-    override val di by di()
-    private val databaseDao: DatabaseDao by instance("databaseDao")
-    private val apiService: WeatherApiService by instance("apiService")
-    val weatherLiveData = MutableLiveData(Resource.success(listOf<Weather>()))
-
+class WeatherViewModel(
+    application: Application,
+    private val databaseDao: DatabaseDao,
+    private val apiService: WeatherApiService
+) : AndroidViewModel(application) {
 
     val weatherList = MutableLiveData<UiState>()
     val weatherData = mutableMapOf<Int, Weather>()
 
-init {
-    triggerLoadForAllFavoriteCities()
-}
+    init {
+        triggerLoadForAllFavoriteCities()
+    }
 
     private fun triggerLoadForAllFavoriteCities() {
         weatherList.postValue(UiState.Loading)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                databaseDao.getObservableFavoriteCities().collectLatest {cities->
+                databaseDao.getObservableFavoriteCities().collectLatest { cities ->
                     cities.forEach { city ->
                         try {
-                            if(!weatherData.keys.contains(city.woeid)) {
+                            if (!weatherData.keys.contains(city.woeid)) {
                                 val weather = apiService.weatherForCity(city.woeid)
                                 weatherData[city.woeid] = weather
                             }
@@ -51,32 +49,11 @@ init {
             }
         }
     }
-    fun triggerLoadForAllFavoriteCities1() {
-        viewModelScope.launch {
-            weatherLiveData.value = Resource.loading(listOf())
-
-            val cities = databaseDao.getFavoriteCities()
-            val liveDataWeatherValues = weatherLiveData.value!!.data!!.toMutableList()
-
-            cities.forEach { city ->
-                val weather = apiService.weatherForCity(city.woeid)
-                val liveDataWeather =
-                    liveDataWeatherValues.find { value -> value.title == weather.title }
-                if (liveDataWeather !== null) {
-                    liveDataWeather.consolidatedWeathers = weather.consolidatedWeathers
-                } else {
-                    liveDataWeatherValues.add(weather)
-                }
-                weatherLiveData.value = Resource.loading(liveDataWeatherValues)
-            }
-            weatherLiveData.value = Resource.success(liveDataWeatherValues)
-        }
-    }
 }
 
 
 sealed class UiState() {
-    data class Succuss(val data:Any) : UiState()
+    data class Succuss(val data: Any) : UiState()
     data class Error(val message: String) : UiState()
     object Loading : UiState()
 }
