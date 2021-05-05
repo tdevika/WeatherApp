@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:padding="20dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-  <TextView
-    android:id="@+id/city"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    tools:text="Testing"/>
+    <data>
 
-  <ImageView
-    android:id="@+id/checkmark"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentRight="true"
-    android:visibility="invisible"
-    android:src="@drawable/ic_check" />
-</RelativeLayout>
+        <import type="android.view.View" />
+
+        <variable
+            name="cityData"
+            type="com.wednesday.template.model.City" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{cityData.title}" />
+
+        <ImageView
+            android:id="@+id/checkmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_check"
+            android:visibility="@{cityData.favorite ? View.VISIBLE : View.INVISIBLE}" />
+    </RelativeLayout>
+</layout>

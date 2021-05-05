@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "318599d872f310062b18fd12e50f78e3",
+    "identityHash": "606a781ef0fca7851cbc4bbb91fe9fd0",
     "entities": [
       {
         "tableName": "favorite_cities",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`woeid` INTEGER NOT NULL, `title` TEXT NOT NULL, `locationType` TEXT NOT NULL, PRIMARY KEY(`woeid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`woeid` INTEGER NOT NULL, `title` TEXT NOT NULL, `locationType` TEXT NOT NULL, `isFavorite` INTEGER NOT NULL, PRIMARY KEY(`woeid`))",
         "fields": [
           {
             "fieldPath": "woeid",
@@ -25,6 +25,12 @@
             "columnName": "locationType",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "isFavorite",
+            "columnName": "isFavorite",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -40,7 +46,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '318599d872f310062b18fd12e50f78e3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '606a781ef0fca7851cbc4bbb91fe9fd0')"
     ]
   }
 }
