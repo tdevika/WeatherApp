@@ -7,3 +7,5 @@ data class Weather(
   @SerializedName("consolidated_weather")
   var consolidatedWeathers: List<ConsolidatedWeather>
 )
+
+

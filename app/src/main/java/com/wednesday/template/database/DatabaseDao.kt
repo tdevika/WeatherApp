@@ -1,15 +1,16 @@
 package com.wednesday.template.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.wednesday.template.model.City
+import com.wednesday.template.model.Weather
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DatabaseDao {
-  @Query("Select * from favorite_cities")
-  fun getObservableFavoriteCities(): LiveData<List<City>>
+  @Query("select * from favorite_cities")
+  fun getObservableFavoriteCities():Flow<List<City>>
 
-  @Query("Select * from favorite_cities")
+  @Query("select * from favorite_cities")
   suspend fun getFavoriteCities(): List<City>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -17,4 +18,6 @@ interface DatabaseDao {
 
   @Delete
   suspend fun deleteFavoriteCity(city: City)
+
+
 }
