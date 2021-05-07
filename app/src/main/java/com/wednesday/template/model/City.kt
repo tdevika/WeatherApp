@@ -13,5 +13,7 @@ data class City(
   val title: String,
 
   @SerializedName("location_type")
-  val locationType: String
+  val locationType: String,
+
+  var isFavorite:Boolean = false
 )

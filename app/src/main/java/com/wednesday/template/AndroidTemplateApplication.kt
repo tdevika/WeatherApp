@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder
 import com.wednesday.template.database.AndroidTemplateDatabase
 import com.wednesday.template.database.DatabaseDao
 import com.wednesday.template.network.WeatherApiService
+import com.wednesday.template.viewmodel.CityViewModelFactory
+import com.wednesday.template.viewmodel.WeatherViewModelFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -52,6 +54,13 @@ class AndroidTemplateApplication: Application(), DIAware {
 
     bind<DatabaseDao>("databaseDao") with singleton {
       instance<AndroidTemplateDatabase>("database").databaseDao()
+    }
+    bind<CityViewModelFactory>("cityViewModelFactory") with singleton {
+      CityViewModelFactory(this@AndroidTemplateApplication, instance("databaseDao"), instance("apiService") )
+    }
+
+    bind<WeatherViewModelFactory>("weatherViewModelFactory") with singleton {
+      WeatherViewModelFactory(this@AndroidTemplateApplication, instance("databaseDao"), instance("apiService") )
     }
   }
 }
