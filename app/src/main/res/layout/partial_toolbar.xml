@@ -17,5 +17,6 @@
     android:layout_gravity="right"
     android:layout_marginRight="10dp"
     android:visibility="invisible"
-    style="?android:attr/progressBarStyleSmall" />
+    style="?android:attr/progressBarStyleSmall"
+      android:layout_marginEnd="10dp" />
 </androidx.appcompat.widget.Toolbar>

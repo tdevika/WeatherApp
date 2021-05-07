@@ -32,7 +32,7 @@
                     android:layout_height="30dp"
                     android:layout_marginRight="@dimen/space_8dp"
                     android:layout_gravity="end"
-                    />
+                    android:layout_marginEnd="@dimen/space_8dp" />
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
