@@ -7,10 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
-import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
-import com.wednesday.template.viewmodel.UiState
 
 private val progressViewTag = 1119
 private val progressContainerTag = 1120

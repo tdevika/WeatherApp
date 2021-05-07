@@ -1,6 +1,5 @@
 package com.wednesday.template.activity
 
-import android.database.DatabaseUtils
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil

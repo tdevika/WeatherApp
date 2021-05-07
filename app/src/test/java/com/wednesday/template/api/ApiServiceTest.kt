@@ -1,4 +1,4 @@
-package com.example.bankdetails.api
+package com.wednesday.template.api
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.wednesday.template.network.WeatherApiService

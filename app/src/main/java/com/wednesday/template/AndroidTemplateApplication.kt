@@ -8,7 +8,6 @@ import com.wednesday.template.database.DatabaseDao
 import com.wednesday.template.network.WeatherApiService
 import com.wednesday.template.viewmodel.CityViewModelFactory
 import com.wednesday.template.viewmodel.WeatherViewModelFactory
-import kotlinx.coroutines.Dispatchers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

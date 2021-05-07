@@ -11,9 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.kodein.di.DIAware
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
 
 class CityViewModel(
     application: Application,
@@ -22,7 +19,7 @@ class CityViewModel(
 ) : AndroidViewModel(application) {
 
     val searchCities = MutableLiveData<List<City>>()
-    private var favoriteCities = listOf<City>()
+    var favoriteCities = MutableLiveData<List<City>>()
 
     init {
         getFavoriteCities()
@@ -33,7 +30,7 @@ class CityViewModel(
             withContext(Dispatchers.IO) {
                 val result = apiService.searchCities(searchText)
                 result.map { city ->
-                    val isCitySelected = favoriteCities.find { it.title == city.title }
+                    val isCitySelected = favoriteCities.value?.find { it.title == city.title }
                     isCitySelected?.let {
                         city.isFavorite = true
                     }
@@ -43,11 +40,11 @@ class CityViewModel(
         }
     }
 
-    private fun getFavoriteCities() =
+     fun getFavoriteCities() =
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 databaseDao.getObservableFavoriteCities().collectLatest { cityList ->
-                    favoriteCities = cityList
+                    favoriteCities.postValue(cityList)
                 }
             }
         }
